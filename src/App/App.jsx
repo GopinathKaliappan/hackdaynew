@@ -76,7 +76,10 @@ class App extends React.Component {
         return (        
 
             <div className="text-center">              
-                <img src={blockImage} className={'cover-image'}/>                     
+                    {
+                        otpStatus !== 'verfified' ?   <img src={blockImage} className={'cover-image'}/> : null                    
+                    }
+                
                  <Router history={history}>
                         <div> 
                                 <Switch>
