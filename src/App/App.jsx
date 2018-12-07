@@ -59,6 +59,17 @@ const RouterItems = [
     }
 ]
 
+
+
+const ImageRender = ({ canShowImage, classImg }) => (
+    <div>
+        {
+            canShowImage ? <img src={blockImage}  className={classImg} />  : null   
+        }         
+    </div>
+)
+
+
 class App extends React.Component {
     constructor(props) {
         console.log(config.apiUrl)
@@ -76,10 +87,8 @@ class App extends React.Component {
         return (        
 
             <div className="text-center">              
-                    {
-                        otpStatus !== 'verfified' ?   <img src={blockImage} className={'cover-image'}/> : null                    
-                    }
-                
+
+                 <ImageRender canShowImage={otpStatus !== 'verfified'} classImg={otpStatus !== 'verified' ? 'cover-image': 'dont-show'}/>
                  <Router history={history}>
                         <div> 
                                 <Switch>

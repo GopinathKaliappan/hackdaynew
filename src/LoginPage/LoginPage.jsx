@@ -59,7 +59,8 @@ class LoginPage extends React.Component {
             initial: {
                 isStarted: false,
                 isPhoneNumberEntered: false                
-            }
+            },
+            otp: ''
         };
         
         this.handleChange = this.handleChange.bind(this);
@@ -76,6 +77,15 @@ class LoginPage extends React.Component {
         
     }
     handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value }, () => {
+            if(value.length > 3) {
+                this.verifyOtp(this.state.otp);
+            }                 
+        });
+
+    }
+    handleOtp(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
     }
@@ -99,11 +109,12 @@ class LoginPage extends React.Component {
         }
     }    
     verifyOtp(otp) {
-        if(config.otp === otp) {
-            localStorage.setItem('otp', JSON.stringify({ otpStatus: 'verified',  phone: this.state.phone }));
-            this.props.changeOTPStatus('verified', { phone: this.state.phone });
-            history.push('/dashboard');
-
+        if(config.otp === otp) {                    
+            setTimeout(()=> {                
+                localStorage.setItem('otp', JSON.stringify({ otpStatus: 'verified',  phone: this.state.phone }));
+                this.props.changeOTPStatus('verified', { phone: this.state.phone });
+                history.push('/dashboard');
+            }, 1500)           
         }
     }
 
@@ -114,17 +125,18 @@ class LoginPage extends React.Component {
         return (
             <div className="nopadding">
                                         
-                   
-                  
+                    
+                                  
                     {
-                            otpStatus === 'requested' ? 
-                            <div>
+                            otpStatus === 'requested' || this.state.otp === config.otp ? 
+                            <div>       <span className={'loading-icon'} >
                                 <img 
                                         src={loadingImage} 
-                                        className={'loading-icon'} 
+                                        
                                         alt={'loading'}
                                 />
-                                    {'OTP Requested'}
+                                   <div> {'Loading ....'}</div>
+                                    </span>
                             </div>
                             : 
                             null
@@ -140,9 +152,9 @@ class LoginPage extends React.Component {
                              
                                 <form type="submit" onSubmit={this.handleSubmit}>
 
-                                    <div><input type="text" name="phone" placeHolder={'Enter Phone Number'} onChange={this.handleChange}/></div>
+                                    <div><input type="text" name="phone" placeholder={'Enter Phone Number'} onChange={this.handleChange}/></div>
                                     
-                                    <div><button type="submit" class="btn success">Continue</button></div>                  
+                                    <div><button type="submit" className="btn success">Continue</button></div>                  
                                 </form>
                             </div>
                             </div> 
@@ -155,17 +167,21 @@ class LoginPage extends React.Component {
                             <div className={'col-md-6'}>
                             </div>
                             <div className={'col-md-6'}>
-                             <div class="login-container otp-area">   
+                             <div class="login-container ">   
                              
-                                
-                                <div class="btn success">Enter Otp</div> 
-                                <div className={'otp-cover'}>
-                                    <OtpInput                                        
-                                      onChange={otp => { this.verifyOtp(otp) }}
-                                      numInputs={4}
-                                      separator={<span>-</span>}   
+                                <div className={''}>
+                                    
+                                    <input 
+                                            type={'number'} 
+                                            value={this.state.otp} 
+                                            name={'otp'} 
+                                            disabled={this.state.otp === config.otp}
+                                            className={'text-center'} 
+                                            onChange={this.handleChange} 
                                     />
                                 </div>
+                                <div class="btn success">Enter Otp</div> 
+
                             </div>
                             </div> 
                             </div>: 
