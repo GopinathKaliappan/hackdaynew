@@ -1,0 +1,24 @@
+.common-icon {
+	z-index: 9999;
+    position: absolute;
+    left: 12px;
+    top: 60px;
+    font-size: 25px;
+    color: #729dc8;
+}
+
+.ml-10 {
+	margin-left: 10px;
+}
+
+.jumbotron {
+    background-color: #ffff ;
+}
+
+html { 
+  background: url(/src/assets/images/block.svg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
