@@ -152,7 +152,7 @@ class LoginPage extends React.Component {
                             <div className={'col-md-6'}>
                             </div>
                             <div className={'col-md-6'}>
-                             <div class="login-container">   
+                             <div class="login-container otp-area">   
                              
                                 Enter OTP
                                     <OtpInput
