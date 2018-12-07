@@ -104,9 +104,18 @@ html {
 .loading-icon {
     position: absolute;
     width: 200px;
-    top: 40%;
+    top: 30%;
     left: 40%;
 }
 .loading-icon img {
     width:  50px;
+}
+
+.loading-text {
+        color: white;
+    margin-left: 18px;
+}
+
+.white {
+    color: white;
 }

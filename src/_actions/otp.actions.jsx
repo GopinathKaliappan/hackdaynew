@@ -4,12 +4,22 @@ import { history } from '../_helpers';
 import config from 'config';
 
 
-function changeOTPStatus(otpStatus, user) { 
+function changeOTPStatus(otpStatus, userID) { 
         return { 
             type: userConstants.CHANGE_OTP_STATUS, 
             payload: { 
                 otpStatus, 
-                user
+                userID,
+                category: ''
+            } 
+        };
+}
+
+function selectCategory(category) { 
+        return { 
+            type: userConstants.SELECT_CATEGORY, 
+            payload: { 
+                category                
             } 
         };
 }
@@ -25,9 +35,16 @@ function requestOTP(phone) {
         otpService.requestOTP(phone)
             .then(
                 user => {
-                    dispatch(changeOTPStatus('received', user));
-                    config.otp = '1234';
-
+                    if(user.user_id) {
+                        alert('received')
+                        dispatch(changeOTPStatus('received', user.user_id));
+                        config.otp = '1234';  
+                    }
+                    else {
+                        
+                        dispatch(changeOTPStatus('', {}));
+                        config.otp = '1234';    
+                    }                    
                 },
                 error => {
 
@@ -43,5 +60,6 @@ function requestOTP(phone) {
 
 export const otpActions = {
     requestOTP,
-    changeOTPStatus 
+    changeOTPStatus ,
+    selectCategory
 };

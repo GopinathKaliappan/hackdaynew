@@ -8,9 +8,9 @@ import config from 'config';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCheckSquare, faCoffee  } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faCoffee, faWrench  } from '@fortawesome/free-solid-svg-icons'
 
-library.add(fab, faCheckSquare, faCoffee);
+library.add(fab, faCheckSquare, faCoffee, faWrench);
 
 //  font awesome configuration 
 
@@ -92,10 +92,10 @@ class App extends React.Component {
                  <Router history={history}>
                         <div> 
                                 <Switch>
-                                <Route key={'login'} name={'login'} path={'/login'} component={LoginPage} />                                   
-                                <Route key={'Dashboard'} path={'/dashboard'} component={SideBar} />    
-                                <Route key={'Register'} path={'/register'} component={RegisterPage} />                                
-                                <Route key={'login'} name={'login'} path={'/'} component={LoginPage} />                                
+                                    <Route key={'login'} name={'login'} path={'/login'} component={LoginPage} />                                   
+                                    <Route key={'Dashboard'} path={'/dashboard'} component={SideBar} />    
+                                    <Route key={'Register'} path={'/register'} component={RegisterPage} />                                
+                                    <Route key={'login'} name={'login'} path={'/'} component={LoginPage} />                                
                                 </Switch>
                         </div>
                 </Router>

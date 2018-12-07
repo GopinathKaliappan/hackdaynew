@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faBars } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faCoffee, 
+  faBars, 
+  faWrench, 
+  faPowerOff,
+  faMobile,
+  faPlusCircle
+} from '@fortawesome/free-solid-svg-icons';
 import { bars } from '@fortawesome/free-solid-svg-icons';
-
+import Card from '@material-ui/core/Card';
 
 
 import { bindActionCreators } from 'redux';
@@ -16,9 +23,20 @@ import { Route, Link } from 'react-router-dom';
 import { NavPane, NavPaneItem, Text } from 'react-desktop/windows';
 import MainContainer from '../App/MainContainer/MainContainer'; 
 
+
 import Title from './title';
+import './style.css';
 
 
+import phone from '../assets/images/phone.svg';
+import washingMachine from '../assets/images/washingmachine_new.svg';
+import pc from '../assets/images/pc_new.svg';
+import laptop from '../assets/images/laptop_new.svg';
+import headPhone from '../assets/images/headphone_new.svg';
+import printer from '../assets/images/printer_new.svg';
+import tv from '../assets/images/tv_new.svg';
+
+import CategoriesComponent from './Category';
 
 
 const menus = {
@@ -40,6 +58,87 @@ const menus = {
     icon: 'logout'
   }      
 }
+
+
+const dashboardItems = {
+  items: [
+  'mobile', 
+  'laptop', 
+  'printer', 
+  'fridge', 
+  'tv', 
+  'washingMachine',
+  'tablets'
+  ],
+  mobile: {
+    name: 'Mobile Phones',
+    id: 'mob',
+    icon: phone
+  },
+  laptop: {
+    name: 'Laptop',
+    id: 'lap',
+    icon: laptop
+  },
+  printer: {
+    name: 'Printer',
+    id: 'printer',
+    icon: printer
+  },
+  tv: {
+    name: 'TV',
+    id: 'tv',
+    icon: tv
+  },
+  washingMachine : {
+    name: 'Washing Machine',
+    id: 'wm',
+    icon: washingMachine
+  },
+  tablets : {
+    name: 'Tablets',
+    id: 'tab',
+    icon: phone
+  },
+  fridge : {
+    name: 'fridge',
+    id: 'fridge',
+    icon: phone
+  }             
+}
+const Dashboard = (props) => (
+    <div>  
+      <div className={'category-text font-bold'}> 
+              <h4>Categories</h4>
+              <button className={'success add-new-button'}><span><FontAwesomeIcon icon={faPlusCircle} />&nbsp;New</span></button>
+      </div>   
+      <div className={'row'} style={{ width: '80%', margin: '0px auto' }}> 
+            {
+              dashboardItems.items.map(item => (
+
+                  <div 
+                    className={'col-md-3'} 
+                    style={{ marginLeft: '0px', marginRight: '0px' }}
+                    onClick={() => {
+                      props.selectCategory(item);
+                    }}
+                  >
+                      <Card className={'cards-custom'}>
+                         
+                          <div>
+                              <img src={dashboardItems[item].icon} className={'item-icon'} alt={dashboardItems[item].name}/>
+                          </div>
+                          <div style={{ marginTop: '10px' }}>
+                            {dashboardItems[item].name}
+                          </div>
+                      </Card>
+                  </div>
+              ))
+            }          
+      </div>
+    </div>
+);
+
  class SideBar extends Component {
 
   constructor() {
@@ -48,17 +147,18 @@ const menus = {
       selected: 'itemOne',
       isOpened: false
     }
+    this.renderItem = this.renderItem.bind(this);
   }
   componentWillMount() {
     if(this.props.otpStatus === 'verified') {
         history.push('/dashboard');
     } else {
         history.push('/login');
-    }
+    }   
   }  
   render() {
     return (
-      <div>
+      <div style={{ borderRight: '1px solid grey' }}>
           <div onClick={()=> { this.setState({isOpened: !this.state.isOpened})}} >
 
             <FontAwesomeIcon 
@@ -96,9 +196,12 @@ const menus = {
         padding="10px 20px"
         push
       >
-        <div>dsaas dsadsadsa </div>
-        <Text >{content}</Text>
-
+            
+            
+            {
+              this.props.category === '' ? <Dashboard selectCategory={this.props.selectCategory} /> : <CategoriesComponent />
+            }
+            
       </NavPaneItem>
     );
   }
@@ -133,19 +236,29 @@ const menus = {
       );
     case 'itemFour':
       return (
-      <Route render={({ history}) => (
-    <button
-      type='button'
-      onClick={() => { 
-        let data = { otpStatus: '', phone: '' };
-        localStorage.setItem('otp',  JSON.stringify(data));
-        this.props.changeOTPStatus('',  '' );
-        history.push('/login');
-      }}
-    >
-      Click Me!
-    </button>
+      <div onClick={() => { 
+          let data = { otpStatus: '', phone: '' };
+          localStorage.setItem('otp',  JSON.stringify(data));
+          this.props.changeOTPStatus('',  '' );  
+          setTimeout(()=> {
+            this.props.changeOTPStatus('',  '' );  
+          }, 300);
+          history.push('/login');
+      }}>
+        <Route render={({ history}) => (
+    
+    <FontAwesomeIcon 
+        icon={faPowerOff} 
+        
+    />
+
+
   )} />
+  
+          <span className={'ml-10'}>{ !this.state.isOpened ? menus[name].name : '' }</span>        
+      </div>
+    
+
     );
     }
   }
@@ -155,7 +268,8 @@ const menus = {
 const mapStateToProps = (state) => {
   const { otp  } = state;
   return {
-      otpStatus: otp.otpStatus 
+      otpStatus: otp.otpStatus,
+      category: otp.category
   }
 };
 
@@ -164,7 +278,8 @@ function mapDispatchToProps(dispatch) {
 
      return bindActionCreators({
         requestOTP: otpActions.requestOTP,
-        changeOTPStatus: otpActions.changeOTPStatus
+        changeOTPStatus: otpActions.changeOTPStatus,
+        selectCategory: otpActions.selectCategory
     }, dispatch);
 }
 

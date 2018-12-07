@@ -4,7 +4,7 @@ import { userConstants } from '../_constants';
 //const initialState = user ? { otpStatus: 'verified', user } : { otpStatus: '' , user: { } };
 
 let otp = JSON.parse(localStorage.getItem('otp'));
-const initialState = otp ? otp : {  otpStatus: '', phone: '' };
+const initialState = otp ? otp : {  otpStatus: '', phone: '', category: '' };
 
 export function otp(state = initialState, action) {
   
@@ -13,6 +13,9 @@ export function otp(state = initialState, action) {
 
   switch (action.type) {
     case userConstants.CHANGE_OTP_STATUS:
+      return newState = { ...state, ...action.payload };
+    
+    case userConstants.SELECT_CATEGORY:
       return newState = { ...state, ...action.payload };
        
     case userConstants.OTP_VERIFIED:

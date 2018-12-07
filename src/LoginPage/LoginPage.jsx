@@ -31,7 +31,6 @@ import blockImage from '../assets/images/block.svg';
 
 
 
-
 import './style.css';
 
 const styles = {
@@ -67,6 +66,7 @@ class LoginPage extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.verifyOtp = this.verifyOtp.bind(this);
         this.handleState = this.handleState.bind(this);
+        this.handleOtp = this.handleOtp.bind(this);
         
     }
     
@@ -76,18 +76,20 @@ class LoginPage extends React.Component {
         }
         
     }
+
+
     handleChange(e) {
         const { name, value } = e.target;
+        this.setState({ [name]: value });
+
+    }
+    handleOtp(e) {
+        const { name, value } = e.target;        
         this.setState({ [name]: value }, () => {
             if(value.length > 3) {
                 this.verifyOtp(this.state.otp);
             }                 
         });
-
-    }
-    handleOtp(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
     }
 
     handleState(key) {
@@ -104,14 +106,14 @@ class LoginPage extends React.Component {
         this.setState({ submitted: true });
         const { phone } = this.state;
         const { dispatch } = this.props;
-        if (phone) {
+        if (phone.length === 10) {
             this.props.requestOTP(phone);
         }
     }    
-    verifyOtp(otp) {
+    verifyOtp(otp) {        
         if(config.otp === otp) {                    
             setTimeout(()=> {                
-                localStorage.setItem('otp', JSON.stringify({ otpStatus: 'verified',  phone: this.state.phone }));
+                localStorage.setItem('otp', JSON.stringify({ otpStatus: 'verified',  phone: this.state.phone, category: '' }));
                 this.props.changeOTPStatus('verified', { phone: this.state.phone });
                 history.push('/dashboard');
             }, 1500)           
@@ -124,8 +126,9 @@ class LoginPage extends React.Component {
         const { phone, password, submitted } = this.state;
         return (
             <div className="nopadding">
-                                        
-                    
+                    {
+                        otpStatus === 'wrong_number' ? <div className={'loading-icon white'}>  Phone number is Invalid </div>: null
+                    }                                       
                                   
                     {
                             otpStatus === 'requested' || this.state.otp === config.otp ? 
@@ -135,7 +138,7 @@ class LoginPage extends React.Component {
                                         
                                         alt={'loading'}
                                 />
-                                   <div> {'Loading ....'}</div>
+                                   <div className={'loading-text'}> {'Loading ....'}</div>
                                     </span>
                             </div>
                             : 
@@ -152,7 +155,7 @@ class LoginPage extends React.Component {
                              
                                 <form type="submit" onSubmit={this.handleSubmit}>
 
-                                    <div><input type="text" name="phone" placeholder={'Enter Phone Number'} onChange={this.handleChange}/></div>
+                                    <div><input type="number" maxLength={'10'} name="phone" placeholder={'Enter Phone Number'} onChange={this.handleChange} required/></div>
                                     
                                     <div><button type="submit" className="btn success">Continue</button></div>                  
                                 </form>
@@ -175,9 +178,11 @@ class LoginPage extends React.Component {
                                             type={'number'} 
                                             value={this.state.otp} 
                                             name={'otp'} 
+                                            maxLength={4}
                                             disabled={this.state.otp === config.otp}
                                             className={'text-center'} 
-                                            onChange={this.handleChange} 
+                                            placeholder={'Enter OTP'}
+                                            onChange={this.handleOtp} 
                                     />
                                 </div>
                                 <div class="btn success">Enter Otp</div> 

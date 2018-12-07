@@ -1,4 +1,13 @@
-.common-icon {
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(fonts/HelveticaNeueLight.ttf);
+}
+
+div {
+  font-family: myFirstFont;
+}
+.common-icon { 
 	z-index: 9999;
     position: absolute;
     left: 12px;
