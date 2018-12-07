@@ -22,6 +22,8 @@ import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import MainComponent from './MainContainer/MainContainer';
 import SideBar from '../SideBar/SideBar';
+import blockImage from '../assets/images/block.svg';
+
 import  './App.css';
 
 const Header = (props) => (
@@ -73,7 +75,8 @@ class App extends React.Component {
         const { alert, loggedIn, otpStatus } = this.props;
         return (        
 
-            <div className="text-center">                 
+            <div className="text-center">              
+                <img src={blockImage} className={'cover-image'}/>                     
                  <Router history={history}>
                         <div> 
                                 <Switch>

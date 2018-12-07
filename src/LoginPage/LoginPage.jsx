@@ -112,15 +112,18 @@ class LoginPage extends React.Component {
 
         const { phone, password, submitted } = this.state;
         return (
-            <div className="nopadding" >
-                    <div>
-                        
-                    </div>    
+            <div className="nopadding">
+                                        
+                   
                   
                     {
                             otpStatus === 'requested' ? 
                             <div>
-                                <img src={loadingImage} alt={'loading'}/>
+                                <img 
+                                        src={loadingImage} 
+                                        className={'loading-icon'} 
+                                        alt={'loading'}
+                                />
                                     {'OTP Requested'}
                             </div>
                             : 
@@ -133,7 +136,7 @@ class LoginPage extends React.Component {
                             <div className={'col-md-6'}>
                             </div>
                             <div className={'col-md-6'}>
-                             <div class="login-container">   
+                             <div className="login-container">   
                              
                                 <form type="submit" onSubmit={this.handleSubmit}>
 
@@ -154,12 +157,15 @@ class LoginPage extends React.Component {
                             <div className={'col-md-6'}>
                              <div class="login-container otp-area">   
                              
-                                Enter OTP
-                                    <OtpInput
+                                
+                                <div class="btn success">Enter Otp</div> 
+                                <div className={'otp-cover'}>
+                                    <OtpInput                                        
                                       onChange={otp => { this.verifyOtp(otp) }}
                                       numInputs={4}
                                       separator={<span>-</span>}   
                                     />
+                                </div>
                             </div>
                             </div> 
                             </div>: 

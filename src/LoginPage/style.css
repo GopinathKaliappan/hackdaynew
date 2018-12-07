@@ -87,9 +87,19 @@ input[type=text]:focus, input[type=password]:focus {
     border: 1px solid black;
 }
 html { 
-  background: url(/src/assets/images/block.svg) no-repeat center center fixed; 
+ /* background: url(/src/assets/images/block.svg) no-repeat center center fixed; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+.otp-cover {
+    position: relative;
+    margin-left: 30.5%;
+    margin-top: 10px;
+}
+
+.loading-icon {
+    position: absolute;
+    width:  50px;
 }
