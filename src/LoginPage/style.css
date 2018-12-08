@@ -106,6 +106,7 @@ html {
     width: 200px;
     top: 30%;
     left: 40%;
+    cursor: pointer;
 }
 .loading-icon img {
     width:  50px;

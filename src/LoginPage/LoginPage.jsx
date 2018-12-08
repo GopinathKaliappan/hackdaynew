@@ -127,7 +127,19 @@ class LoginPage extends React.Component {
         return (
             <div className="nopadding">
                     {
-                        otpStatus === 'wrong_number' ? <div className={'loading-icon white'}>  Phone number is Invalid </div>: null
+                        this.state.otp.length >= 4 && config.otp !== this.state.otp ? 
+
+                        <div 
+                            className={'loading-icon white'}
+                            onClick={()=> { 
+                                this.props.changeOTPStatus('', '')
+                                this.setState({
+                                    otp: ''
+                                })
+                            }}
+                        >  
+                            ****Incorrect OTP Try again
+                        </div>: null
                     }                                       
                                   
                     {

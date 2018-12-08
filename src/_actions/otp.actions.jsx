@@ -36,14 +36,14 @@ function requestOTP(phone) {
             .then(
                 user => {
                     if(user.user_id) {
-                        alert('received')
+
                         dispatch(changeOTPStatus('received', user.user_id));
                         config.otp = '1234';  
                     }
                     else {
                         
-                        dispatch(changeOTPStatus('', {}));
-                        config.otp = '1234';    
+                        dispatch(changeOTPStatus('received', {}));
+                        config.otp = '2545';    
                     }                    
                 },
                 error => {

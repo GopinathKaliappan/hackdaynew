@@ -16,7 +16,7 @@
 .add-new-button {
 	position: absolute;
     right: 0px;
-    top: 0px;
+    top: -20px;
 }
 .item-icon {
 	width: 50px;
@@ -25,4 +25,55 @@
 }
 .font-bold {
 	font-weight: 600;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+/*.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}*/
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.upload-btn {
+	background-color: transparent;
+    /* visibility: hidden; */
+    height: 35px;
+    width: 100px;
+    z-index: 9999999;
+    border: 5px solid #232793;
+}
+
+.upload-upload-success {
+	visibility: hidden;
+	position: absolute;
+    left: 35%;
+    color: green;
+    top: -10px;
+}
+
+.custom-card-item {
+	padding: 25px;
+    margin: 10px;
+    
+}
+.custom-card-item img {
+	width: 60px;
+	float: left;
 }

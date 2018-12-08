@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { bars } from '@fortawesome/free-solid-svg-icons';
 import Card from '@material-ui/core/Card';
-
+import axios from 'axios';
 
 import { bindActionCreators } from 'redux';
 import { history } from '../_helpers';
@@ -37,6 +37,8 @@ import printer from '../assets/images/printer_new.svg';
 import tv from '../assets/images/tv_new.svg';
 
 import CategoriesComponent from './Category';
+import TimeLine from './TimeLine';
+import Popup from './Popup';
 
 
 const menus = {
@@ -106,11 +108,46 @@ const dashboardItems = {
     icon: phone
   }             
 }
-const Dashboard = (props) => (
-    <div>  
+export class Dashboard extends Component {
+  render() {
+    return (
+      <div>  
+    <Popup />
       <div className={'category-text font-bold'}> 
               <h4>Categories</h4>
-              <button className={'success add-new-button'}><span><FontAwesomeIcon icon={faPlusCircle} />&nbsp;New</span></button>
+             <span className={'upload-upload-success'}> {'Image Uploaded Successfully'}</span>
+              <button className={'success add-new-button'}>
+
+              <form  method="post" enctype="multipart/form-data">
+
+             <input 
+                  type="file" 
+                  name="myfile"
+                  className={'upload-btn'}
+                   onChange={(e) => {
+                     const  headers = {
+                          'Content-Type':'multipart/form-data',
+                         
+                      }
+                    const files = Array.from(e.target.files);
+                    const formData = new FormData();
+
+                    files.forEach((file, i) => {
+                      // formData.append(i, file)
+                      formData.append('attachment', file);
+                    })
+                    // return axios.post('http://neusisapi.heptagon.tech/app/image_upload', { attachement, config);      
+                      return axios.post('http://neusisapi.heptagon.tech/app/api/image_upload',formData,headers
+                      ).then((data)=> {
+                        
+                      }, (da)=> {
+                        
+                      })
+
+        
+                  }} />
+                  </form>
+                </button>
       </div>   
       <div className={'row'} style={{ width: '80%', margin: '0px auto' }}> 
             {
@@ -137,7 +174,10 @@ const Dashboard = (props) => (
             }          
       </div>
     </div>
-);
+    )
+  }
+}
+  
 
  class SideBar extends Component {
 
@@ -176,9 +216,6 @@ const Dashboard = (props) => (
           canPaneToggle={this.state.isOpened}
       >
         { this.renderItem('itemOne', 'Content 1') }
-        { this.renderItem('itemTwo', 'Content 2') }
-        { this.renderItem('itemThree', 'Content 3') }
-        { this.renderItem('itemFour', 'Content 3') }
       </NavPane>
       </div>
     );
@@ -201,7 +238,7 @@ const Dashboard = (props) => (
             {
               this.props.category === '' ? <Dashboard selectCategory={this.props.selectCategory} /> : <CategoriesComponent />
             }
-            
+            <TimeLine />
       </NavPaneItem>
     );
   }
